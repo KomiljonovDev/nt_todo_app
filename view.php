@@ -1,13 +1,49 @@
-<ul>
-    <?php
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="text-center">Todo App</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Todo</th>
+                <th scope="col">Delet</th>
+                <th scope="col">Update</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+                $todoList= $todo->getTodo();
+                if (count($todoList)){
+                    foreach ($todoList as $item) {
+                        echo "<tr>
+                                <th>{$item['id']}</th>
+                                <td>{$item['text']}</td>
+                                <td><a class='btn btn-danger' href='?delete={$item['id']}'>Delete</a></td>
+                                <td><a class='btn btn-success' href='?update={$item['id']}'>Update</a></td>
+                        </tr>";
+                    }
+                }
+            ?>
 
-    $todoList = $todo->getTodo();
-    foreach ($todoList as $item):
-        echo "<li>{$item['text']} <a href='?delete=1'>ochirish</a></li>";
-    endforeach; ?>
-</ul>
-<form action="" method="post">
-    <input type="checkbox">
-    <input type="text" name="text">
-    <button type="submit">Add</button>
-</form>
+            </tbody>
+        </table>
+        <form method="post">
+            <div class="mb-3">
+                <label for="todo" class="form-label">Todo</label>
+                <input type="text" name="text" class="form-control" id="todo">
+            </div>
+            <button type="submit" class="btn btn-primary float-end">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

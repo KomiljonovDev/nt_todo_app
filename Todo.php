@@ -1,12 +1,6 @@
 <?php
 
-class Todo {
-
-    private $pdo;
-    public function __construct (PDO $pdo) {
-        $this->pdo = $pdo;
-    }
-
+class Todo extends DB {
     public function setTodo (string $todoName) {
         $status = false;
         $todoName = trim($todoName);
@@ -20,7 +14,8 @@ class Todo {
         return $this->pdo->query("SELECT * FROM todos")->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function deelete (){
-        return $this->pdo;
+    public function deleteTodo ($todoId){
+        return $this->pdo->query("DELETE FROM todos WHERE id={$todoId}");
     }
+
 }
