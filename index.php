@@ -21,7 +21,20 @@ if (!empty($_POST)){
         header('Location: index.php');
     }
 }
+
+
+if (!empty($_GET)){
+    if (isset($_GET['update'])){
+        $todo->toggle($_GET['update']);
+    }
+
+    if (isset($_GET['delete'])){
+        $todo->remove($_GET['delete']);
+    }
+}
+
 require 'view.php';
+
 
 ?>
 

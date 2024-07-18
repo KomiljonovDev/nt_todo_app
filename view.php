@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+
     <div class="container my-5">
         <h1 class="text-center">Todo App</h1>
         <table class="table">
@@ -25,9 +26,11 @@
                 $todoList= $todo->getTodo();
                 if (count($todoList)){
                     foreach ($todoList as $item) {
+                        $text_decoration = $item['status'] ? 'text-decoration-line-through' : '';
+                        $check_box = $item['status'] ? 'checked' : '';
                         echo "<tr>
                                 <th>{$item['id']}</th>
-                                <td>{$item['text']}</td>
+                                <td><input type='checkbox' {$check_box}><p style='display: inline' class='{$text_decoration}'>{$item['text']}</p></td>
                                 <td><a class='btn btn-danger' href='?delete={$item['id']}'>Delete</a></td>
                                 <td><a class='btn btn-success' href='?update={$item['id']}'>Update</a></td>
                         </tr>";
@@ -47,7 +50,7 @@
                 <label for="todo" class="form-label">Todo</label>
                 <input type="text" name="text" class="form-control" id="todo">
             </div>
-            <button type="submit" class="btn btn-primary float-end">Submit</button>
+            <button type="submit" class="btn btn-primary float-end">Add Task</button>
         </form>
     </div>
 </body>
