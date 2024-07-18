@@ -32,6 +32,11 @@
                                 <td><a class='btn btn-success' href='?update={$item['id']}'>Update</a></td>
                         </tr>";
                     }
+                }else{
+                    echo '<tr>
+                        <td colspan="4"><h5 class="text-center">Todo is empty</h5></td>
+                        </tr>
+                    ';
                 }
             ?>
 
