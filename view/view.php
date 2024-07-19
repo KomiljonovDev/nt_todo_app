@@ -17,7 +17,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Todo</th>
-                <th scope="col">Delet</th>
+                <th scope="col">Delete</th>
                 <th scope="col">Update</th>
             </tr>
             </thead>

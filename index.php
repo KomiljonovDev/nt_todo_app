@@ -10,8 +10,20 @@
 </head>
 <body>
 <?php
-require 'DB.php';
-require 'Todo.php';
+
+require 'vendor/autoload.php';
+
+
+$update = json_decode(file_get_contents('php://input'));
+
+if (isset($update)){
+    require 'bot/bot.php';
+    return;
+}
+
+
+require 'src/DB.php';
+require 'src/Todo.php';
 
 $todo = new Todo();
 
@@ -21,7 +33,6 @@ if (!empty($_POST)){
         header('Location: index.php');
     }
 }
-
 
 if (!empty($_GET)){
     if (isset($_GET['update'])){
@@ -33,8 +44,7 @@ if (!empty($_GET)){
     }
 }
 
-require 'view.php';
-
+require 'view/view.php';
 
 ?>
 
