@@ -1,27 +1,46 @@
 <?php
 
-if ($update->message){
+declare(strict_types=1);
+
+$bot = new Bot();
+
+if (isset($update->message)) {
     $message = $update->message;
-    $chat_id =$message->chat->id;
-    $text =$message->text;
+    $chatId  = $message->chat->id;
+    $text    = $message->text;
 
-    $bot = new Bot();
-    $todo = new Todo();
-    $user = new User();
-    if ($text == "/start"){
-        $user->save_user($chat_id);
-        $bot->startHandlerCommand($chat_id);
+    if ($text === "/start") {
+        $bot->handleStartCommand($chatId);
+        return;
     }
 
-    if ($text == "/add"){
-
-        $bot->addHandlerCommand($chat_id);
+    if ($text === "/add") {
+        $bot->handleAddCommand($chatId);
+        return;
     }
 
-//    if ($text){
-//        if ($user->getAction() == 'add'){
-//            $todo->setTodo($text, 'users.id');
-//        }
-//    }
+    if ($text === "/all") {
+        $bot->getAllTasks($chatId);
+        return;
+    }
+
+    $bot->addTask($chatId, $text);
 }
 
+if (isset($update->callback_query)) {
+    $callbackQuery = $update->callback_query;
+    $callbackData  = $callbackQuery->data;
+    $chatId        = $callbackQuery->message->chat->id;
+    $messageId     = $callbackQuery->message->message_id;
+    $user = new \src\User();
+    if ($callbackData == 'delete_task'){
+        $bot->handleDeleteCommand($chatId);
+        return;
+    }
+    if ($user->getUserInfo($chatId)->status == 'delete'){
+        $bot->handleDeleteTask($chatId, (int)$callbackData);
+        $user->setStatus($chatId, '');
+        return;
+    }
+    $bot->handleInlineButton($chatId, (int)$callbackData);
+}

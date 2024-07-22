@@ -1,52 +1,34 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Todo App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
 <?php
 
-require 'vendor/autoload.php';
+require_once "vendor/autoload.php";
 
+date_default_timezone_set('Asia/Tashkent');
 
 $update = json_decode(file_get_contents('php://input'));
 
-if (isset($update)){
+if (isset($update)) {
     require 'bot/bot.php';
     return;
 }
 
+if (count($_GET) > 0 || count($_POST) > 0) {
+    $task = new Task();
 
-require 'src/DB.php';
-require 'src/Todo.php';
+    if (isset($_POST['text'])) {
+        $task->add($_POST['text']);
+    }
 
-$todo = new Todo();
+    if (isset($_GET['complete'])) {
+        $task->complete($_GET['complete']);
+    }
 
-if (!empty($_POST)){
-    if (strlen($_POST['text'])){
-        $todo->setTodo($_POST['text']);
-        header('Location: index.php');
+    if (isset($_GET['uncompleted'])) {
+        $task->uncompleted($_GET['uncompleted']);
+    }
+
+    if (isset($_GET['delete'])) {
+        $task->delete($_GET['delete']);
     }
 }
 
-if (!empty($_GET)){
-    if (isset($_GET['update'])){
-        $todo->toggle($_GET['update']);
-    }
-
-    if (isset($_GET['delete'])){
-        $todo->remove($_GET['delete']);
-    }
-}
-
-require 'view/view.php';
-
-?>
-
-</body>
-</html>
+require 'view/home.php';
