@@ -1,0 +1,22 @@
+{
+  "name": "rustam/todo-app",
+  "description": "The best todo app ever",
+  "autoload": {
+    "classmap": [
+      "."
+    ]
+  },
+  "authors": [
+    {
+      "name": "Rustam",
+      "email": "rustamergashev.sp@gmail.com"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*",
+    "guzzlehttp/guzzle": "^7.8"
+  },
+  "require-dev": {
+    "buggregator/trap": "^1.10"
+  }
+}

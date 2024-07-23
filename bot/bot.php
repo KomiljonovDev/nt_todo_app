@@ -10,6 +10,7 @@ if (isset($update->message)) {
     $text    = $message->text;
 
     if ($text === "/start") {
+
         $bot->handleStartCommand($chatId);
         return;
     }

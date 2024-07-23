@@ -15,7 +15,7 @@ if (count($_GET) > 0 || count($_POST) > 0) {
     $task = new Task();
 
     if (isset($_POST['text'])) {
-        $task->add($_POST['text']);
+        $task->add($_POST['text'], 1);
     }
 
     if (isset($_GET['complete'])) {
