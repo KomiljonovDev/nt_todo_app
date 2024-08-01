@@ -1,27 +1,37 @@
 <?php
 
-namespace src;
-use DB;
-class User {
-    private $pdo;
+declare(strict_types=1);
 
-    public function __construct()
+class User
+{
+    public function create()
     {
-        $this->pdo  = DB::connect();
-    }
-    public function  setStatus(int $chatId, $status='add') {
-        $query  = "INSERT INTO users (chat_id, status, created_at)
-                  VALUES (:chat_id, :status, NOW())
-                  ON DUPLICATE KEY UPDATE status = :status, created_at = NOW()";
-        $stmt   = $this->pdo->prepare($query);
-        $stmt->bindParam(':chat_id', $chatId);
-        $stmt->bindParam(':status', $status);
-        $stmt->execute();
+        if (isset($_POST['email']) && isset($_POST['password'])) {
+            $email    = $_POST['email'];
+            $password = $_POST['password'];
+
+            $db   = DB::connect();
+            $stmt = $db->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $password);
+            $result = $stmt->execute();
+
+            echo $result ? header('Location: /') : 'Something went wrong';
+        }
     }
 
-    public function getUserInfo (int $chatId) {
-        $stmt = $this->pdo->prepare("SELECT * FROM users where chat_id = :chat_id LIMIT 1");
-        $stmt->execute(['chat_id' => $chatId]);
-        return $stmt->fetchObject();
+    public function login () {
+        if (isset($_POST['email']) && isset($_POST['password'])) {
+            $email    = $_POST['email'];
+            $password = $_POST['password'];
+
+            $db   = DB::connect();
+            $stmt = $db->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $password);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            echo $result ? header('Location: /') : 'Something went wrong';
+        }
     }
 }
